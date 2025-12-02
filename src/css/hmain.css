@@ -1,0 +1,120 @@
+.app-wrapper {
+  max-width: 430px;      /* 모바일 기준 너비 */
+  margin: 0 auto;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #FBF5EE;
+  font-family: "Pretendard", sans-serif;
+}
+
+.hmain-wrapper {
+  width: 100%;
+  height: 100%;
+  background: #FBF5EE;
+  position: relative;
+}
+
+/* 정렬 버튼 */
+.sort-btn {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  background: none;
+  border: none;
+}
+
+.sort-icon {
+  width: 25px;
+  height: 25px;
+}
+
+/* 플로팅 버튼 래퍼 */
+.fab-wrapper {
+  position: absolute;
+  right: 25px;
+  bottom: 25px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* 플로팅 메뉴 */
+.fab-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+
+  background-color: #C9BAAB;
+  width: 160px;
+  height: 170px;
+  border-radius: 20px;
+
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* 개별 메뉴 버튼 */
+.fab-menu1 {
+  width: 120px;
+  padding: 10px 0;
+  border-radius: 20px;
+  border: none;
+
+  margin-top: 18px;
+  margin-left: 20px;
+  background: #d8c6b4;
+  font-size: 14px;
+  cursor: pointer;
+}
+.fab-menu1:nth-child(1) {
+  background: #f7f0ce;
+}
+
+.fab-menu2 {
+  width: 120px;
+  padding: 10px 0;
+  border-radius: 20px;
+  border: none;
+
+  margin-left: 20px;
+  background: #d8c6b4;
+  font-size: 14px;
+  cursor: pointer;
+}
+.fab-menu2:nth-child(2) {
+  background: #f0e4db;
+}
+
+.fab-menu3 {
+  width: 120px;
+  padding: 10px 0;
+  border-radius: 20px;
+  border: none;
+
+  margin-left: 20px;
+  background: #d8c6b4;
+  font-size: 14px;
+  cursor: pointer;
+}
+.fab-menu3:nth-child(3) {
+  background: #7c5f59;
+  color: white;
+}
+
+/* 플로팅 메인 버튼 */
+.fab-btn {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: none;
+
+  background: #d8c6b4;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

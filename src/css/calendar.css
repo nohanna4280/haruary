@@ -1,0 +1,93 @@
+/* 배경 딤 */
+.calendar-dim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 2000;
+}
+
+/* 아래에서 올라오는 시트 */
+.calendar-sheet {
+  width: 100%;
+  height: 70%;
+  background: white;
+  border-radius: 20px 20px 0 0;
+  padding: 20px;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+/* 상단 */
+.cal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.cal-header button {
+  background: none;
+  border: none;
+  font-size: 20px;
+}
+
+/* 요일 */
+.cal-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.sun { color: red; }
+.sat { color: blue; }
+
+/* 날짜 그리드 */
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  text-align: center;
+}
+
+.cal-day {
+  padding: 10px 0;
+  border-radius: 10px;
+}
+
+.cal-day:hover {
+  background: #f2e9e4;
+  cursor: pointer;
+}
+
+.cal-day.selected {
+  background: #d7c6b8;     /* 진한 톤 */
+  color: #3c2f2f;
+  border-radius: 14px;
+  font-weight: bold;
+  transform: scale(1.07);  /* 살짝 커지면서 눌린 느낌 */
+  transition: 0.15s ease-out;
+}
+
+/* 확인 버튼 */
+.cal-confirm {
+  margin: 20px auto 0;
+  display: block;
+  width: 80px;
+  padding: 10px 0;
+  background: #ddd0c5;
+  border: none;
+  border-radius: 20px;
+}
