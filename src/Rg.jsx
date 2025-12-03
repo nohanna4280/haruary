@@ -5,7 +5,7 @@ import close from "./assets/close.svg";
 import check from "./assets/check.svg";
 import CalendarModal from "./CalendarModal.jsx";
 
-export default function Register() {
+export default function Rg({ addDiary }) {
   const navigate = useNavigate();
 
   // 모달 열림 상태
@@ -19,20 +19,38 @@ export default function Register() {
   // 이미지 삭제
   const [deleteTarget, setDeleteTarget] = useState(null);
 
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
   // 이미지 업로드 처리
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const imgURL = URL.createObjectURL(file);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64 = reader.result;
+      setImages((prev) => {
+        const copy = [...prev];
+        const idx = copy.findIndex((i) => i === null);
+        if (idx !== -1) copy[idx] = base64;
+        return copy;
+      });
+    };
+    reader.readAsDataURL(file);
+  };
 
-    setImages((prev) => {
-      const copy = [...prev];
-      const idx = copy.findIndex((i) => i === null); // 첫 빈 칸 찾기
+  const handleSave = () => {
+    const diary = {
+      id: Date.now(),
+      date: selectedDate,
+      title,
+      content,
+      images
+    };
 
-      if (idx !== -1) copy[idx] = imgURL;
-      return copy;
-    });
+    addDiary(diary);
+    navigate("/");
   };
 
   // 오늘 날짜 초기 설정
@@ -60,11 +78,11 @@ export default function Register() {
         </div>
 
         {/* 체크 버튼 */}
-        <button className="check-btn">
+        <button className="check-btn" onClick={handleSave}>
           <img src={check} alt="check" className="check-icon" />
         </button>
       </div>
-      
+
       {/* 날짜 모달 */}
       {dateModal && (
         <CalendarModal
@@ -78,59 +96,67 @@ export default function Register() {
       )}
 
       <div className="image-grid">
-  {images.map((img, index) => {
-    const isPlusSpot = index === images.findIndex(i => i === null);
+        {images.map((img, index) => {
+          const isPlusSpot = index === images.findIndex(i => i === null);
 
-    return (
-      <div key={index} className="img-box">
+          return (
+            <div key={index} className="img-box">
 
-        {/* 이미지 있을 때 */}
-        {img && (
-          <div className="img-container">
-            <img
-              src={img}
-              alt={`img-${index}`}
-              className="img-photo"
-              onClick={() => setDeleteTarget(index)}
-            />
+              {/* 이미지 있을 때 */}
+              {img && (
+                <div className="img-container">
+                  <img
+                    src={img}
+                    alt={`img-${index}`}
+                    className="img-photo"
+                    onClick={() => setDeleteTarget(index)}
+                  />
 
-            {/* 삭제 버튼 오버레이 */}
-            {deleteTarget === index && (
-              <div className="delete-overlay">
-                <button
-                  className="delete-btn"
-                  onClick={() => {
-                    const copy = [...images];
-                    copy[index] = null;
-                    setImages(copy);
-                    setDeleteTarget(null);
-                  }}
-                >
-                  삭제
-                </button>
-              </div>
-            )}
-          </div>
-        )}
+                  {/* 삭제 버튼 오버레이 */}
+                  {deleteTarget === index && (
+                    <div className="delete-overlay">
+                      <button
+                        className="delete-btn"
+                        onClick={() => {
+                          const copy = [...images];
+                          copy[index] = null;
+                          setImages(copy);
+                          setDeleteTarget(null);
+                        }}
+                      >
+                        삭제
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
 
-        {/* 플러스 버튼: 첫 null 칸에만 노출 */}
-        {!img && isPlusSpot && (
-          <label className="plus-btn">
-            +
-            <input type="file" accept="image/*" onChange={handleImageUpload} />
-          </label>
-        )}
+              {/* 플러스 버튼: 첫 null 칸에만 노출 */}
+              {!img && isPlusSpot && (
+                <label className="plus-btn">
+                  +
+                  <input type="file" accept="image/*" onChange={handleImageUpload} />
+                </label>
+              )}
 
+            </div>
+          );
+        })}
       </div>
-    );
-  })}
-</div>
       {/* 제목 + 내용 입력 */}
       <div className="text-area">
-        <input className="title-input" placeholder="제목을 입력하세요." />
+        <input
+          className="title-input"
+          placeholder="제목을 입력하세요."
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+
         <textarea
           className="content-input"
           placeholder="내용을 입력하세요..."
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
         ></textarea>
       </div>
     </div>

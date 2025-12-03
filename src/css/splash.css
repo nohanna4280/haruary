@@ -1,6 +1,7 @@
 .splash-wrapper {
   width: 100%;        /* app-wrapper 안 기준으로 잡힘 */
   height: 100%;
+  max-width: 430px;
   display: flex;
   justify-content: center;
   align-items: center;

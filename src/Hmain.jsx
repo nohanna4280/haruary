@@ -3,18 +3,33 @@ import { useNavigate } from "react-router-dom";
 import "./css/hmain.css";
 import sortIcon from "./assets/sort.svg";
 
-export default function Hmain() {
+export default function Hmain({ diaries }) {
   const [openMenu, setOpenMenu] = useState(false);
   const navigate = useNavigate();
 
   return (
     <div className="hmain-wrapper">
-      {/* 정렬 버튼 */}
+
       <button className="sort-btn">
         <img src={sortIcon} alt="sort" className="sort-icon" />
       </button>
 
-      {/* 카테고리 */}
+      {/* 일기 카드 */}
+      <div className="diary-wrapper">
+        {diaries.map((d) => (
+          <div
+            key={d.id}
+            className="diary-card"
+            onClick={() => navigate(`/edit/${d.id}`)}
+          >
+            <img src={d.images[0]} className="thumb-img" />
+            <div className="card-title">{d.title}</div>
+            <div className="card-date">{d.date}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* 플로팅 버튼 */}
       <div className="fab-wrapper">
         {openMenu && (
           <div className="fab-menu">
@@ -24,14 +39,10 @@ export default function Hmain() {
           </div>
         )}
 
-        {/* + 버튼 */}
-        <button
-          className="fab-btn"
-          onClick={() => setOpenMenu((prev) => !prev)}
-        >
-          +
-        </button>
+        <button className="fab-btn" onClick={() => setOpenMenu(prev => !prev)}>+</button>
       </div>
+
     </div>
   );
 }
+
