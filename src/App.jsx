@@ -4,6 +4,7 @@ import Splash from "./Splash";
 import Hmain from "./Hmain";
 import Rg from "./Rg";
 import "./css/hmain.css";
+import "./App.css";
 
 export default function App() {
   const [loadingDone, setLoadingDone] = useState(false);
