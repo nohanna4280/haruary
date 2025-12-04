@@ -17,30 +17,31 @@ export default function Edit({ diaries, updateDiary, deleteDiary }) {
     const [title, setTitle] = useState(diary?.title || "");
     const [content, setContent] = useState(diary?.content || "");
 
-    const [dateModal, setDateModal] = useState(false);
     const [deleteTarget, setDeleteTarget] = useState(null); // 이미지 삭제용
     const [showDeletePopup, setShowDeletePopup] = useState(false); // 일기 전체 삭제용
 
+    const [dateModal, setDateModal] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = dateModal ? "hidden" : "";
+  }, [dateModal]);
 
     // 이미지 업로드(base64)
-    const handleImageUpload = (e) => {
+    const handleImageUpload = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
 
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            const base64 = reader.result;
+        // 이미지 압축 후 base64 받기
+        const compressed = await compressImage(file);
 
-            setImages((prev) => {
-                const copy = [...prev];
-                const idx = copy.findIndex((i) => i === null);
-                if (idx !== -1) copy[idx] = base64;
-                return copy;
-            });
-        };
-
-        reader.readAsDataURL(file);
+        setImages((prev) => {
+            const copy = [...prev];
+            const idx = copy.findIndex((i) => i === null);
+            if (idx !== -1) copy[idx] = compressed;
+            return copy;
+        });
     };
+
 
     // 수정 저장
     const handleSave = () => {
@@ -62,8 +63,38 @@ export default function Edit({ diaries, updateDiary, deleteDiary }) {
         navigate("/");
     };
 
+    // 이미지 압축 + base64 변환
+    const compressImage = (file, maxWidth = 900, quality = 0.6) =>
+        new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target.result;
+
+                img.onload = () => {
+                    const canvas = document.createElement("canvas");
+
+                    // 비율 유지
+                    const scale = maxWidth / img.width;
+                    canvas.width = maxWidth;
+                    canvas.height = img.height * scale;
+
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    // 압축된 이미지 base64
+                    const compressedBase64 = canvas.toDataURL("image/jpeg", quality);
+
+                    resolve(compressedBase64);
+                };
+            };
+        });
+
+
     return (
-        <div className="register-wrapper">
+        <div className={`register-wrapper ${dateModal ? "lock-scroll" : ""}`}>
 
             {/* 상단바 */}
             <div className="register-topbar">

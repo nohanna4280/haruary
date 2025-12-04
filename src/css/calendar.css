@@ -5,7 +5,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.35);
+  background: rgba(0, 0, 0, 0.562);
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -17,8 +17,7 @@
   width: 100%;
   height: 70%;
   background: white;
-  border-radius: 20px 20px 0 0;
-  padding: 20px;
+  padding: 30px;
   animation: slideUp 0.3s ease;
 }
 
@@ -33,13 +32,18 @@
   justify-content: space-between;
   align-items: center;
   font-size: 18px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .cal-header button {
   background: none;
   border: none;
   font-size: 20px;
+}
+
+.foot1-icon {
+  width: 40px;
+  height: 40px;
 }
 
 /* 요일 */
@@ -58,24 +62,24 @@
 .cal-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
+  gap: 8px;
   text-align: center;
 }
 
 .cal-day {
   padding: 10px 0;
-  border-radius: 10px;
+  border-radius: 17px;
 }
 
 .cal-day:hover {
-  background: #f2e9e4;
+  background: #eeebea;
   cursor: pointer;
 }
 
 .cal-day.selected {
-  background: #d7c6b8;     /* 진한 톤 */
-  color: #3c2f2f;
-  border-radius: 14px;
+  background: #DABCBC;     /* 진한 톤 */
+  color: #ffffff;
+  border-radius: 17px;
   font-weight: bold;
   transform: scale(1.07);  /* 살짝 커지면서 눌린 느낌 */
   transition: 0.15s ease-out;
@@ -87,7 +91,7 @@
   display: block;
   width: 80px;
   padding: 10px 0;
-  background: #ddd0c5;
+  background: #b6b3b0;
   border: none;
   border-radius: 20px;
 }

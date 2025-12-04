@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./css/calendar.css";
 import check from "./assets/check.svg";
+import foot from "./assets/foot.svg";
 
 export default function CalendarModal({ currentSelected, onClose, onConfirm }) {
   const today = new Date();
@@ -66,9 +67,13 @@ export default function CalendarModal({ currentSelected, onClose, onConfirm }) {
 
         {/* 상단 헤더 */}
         <div className="cal-header">
-          <button onClick={prevMonth}>&lt;</button>
+          <button onClick={prevMonth}>
+            <img src={foot} alt="foot" className="foot1-icon" />
+          </button>
           <span>{year}년 {month + 1}월</span>
-          <button onClick={nextMonth}>&gt;</button>
+          <button onClick={nextMonth}>
+            <img src={foot} alt="foot" className="foot1-icon" />
+          </button>
         </div>
 
         {/* 요일 */}

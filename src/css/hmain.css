@@ -6,6 +6,8 @@
   overflow: hidden;
   background-color: #FBF5EE;
   font-family: "Pretendard", sans-serif;
+  overscroll-behavior: none;
+  touch-action: none;
 }
 
 .hmain-wrapper {
@@ -13,7 +15,10 @@
   height: 100%;
   background: #FBF5EE;
   position: relative;
-  padding-top: 70px; /* 정렬 버튼 공간 확보 */
+  padding-top: 70px;
+  overflow-y: auto;
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* 정렬 버튼 */
@@ -33,7 +38,7 @@
 
 /* 플로팅 버튼 래퍼 */
 .fab-wrapper {
-  position: absolute;
+  position: fixed;
   right: 25px;
   bottom: 25px;
 
@@ -158,7 +163,6 @@
   width: 100%;
   aspect-ratio: 1 / 1;
   background: #fff;
-  border-radius: 8px;
   overflow: hidden;
 }
 

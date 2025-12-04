@@ -7,14 +7,24 @@
   font-display: swap;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+   overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
 body {
   font-family: 'NanumSquareNeo', system-ui, sans-serif !important;
 }
 
 .app-wrapper {
-  width: 100%;
-  height: 100vh;
+  max-width: 430px;     /* 모바일 너비 */
+  margin: 0 auto;
+  height: 100dvh;       /* iOS 실 화면 높이 */
+  overflow: hidden;     /* 스크롤 방지 */
   background: #ffeadd;
-  overflow: hidden;
   position: relative;
+
+  overflow-y: auto;
 }

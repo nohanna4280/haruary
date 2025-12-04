@@ -45,12 +45,3 @@ html {
 body {
   -webkit-text-size-adjust: none; 
 }
-
-.app-wrapper {
-  max-width: 430px;      /* 모바일 기준 너비 */
-  margin: 0 auto;
-  height: 100vh;
-  overflow: hidden;
-  background-color: #FBF5EE;
-  font-family: "Pretendard", sans-serif;
-}

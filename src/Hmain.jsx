@@ -24,19 +24,27 @@ export default function Hmain({ diaries }) {
     "12": "#DBD0CB"
   };
 
+  // 날짜 안전 파싱 함수
+  const parseDate = (dateStr) => {
+    if (!dateStr) return new Date(0); // 잘못된 날짜는 가장 오래된 날짜로 처리
+    const onlyDate = dateStr.split(" ")[0]; // "2025.12.03"
+    const parts = onlyDate.split(".");
+    if (parts.length !== 3) return new Date(0);
+    return new Date(`${parts[0]}-${parts[1]}-${parts[2]}`);
+  };
 
-  // 날짜 자동 정렬: 최신순(가장 최근 → 위로)
+  // 정렬
   const sortedDiaries = [...diaries].sort((a, b) => {
-    const dateA = new Date(a.date.split(" ")[0]);
-    const dateB = new Date(b.date.split(" ")[0]);
+    const A = parseDate(a.date);
+    const B = parseDate(b.date);
 
-    if (sortType === "latest") return dateB - dateA;
-    if (sortType === "oldest") return dateA - dateB;
-    if (sortType === "title") return a.title.localeCompare(b.title);
+    if (sortType === "latest") return B - A;
+    if (sortType === "oldest") return A - B;
+    if (sortType === "title") return (a.title || "").localeCompare(b.title || "");
 
     return 0;
   });
-  
+
   return (
     <div className="hmain-wrapper">
 
@@ -44,10 +52,14 @@ export default function Hmain({ diaries }) {
         <img src={sortIcon} alt="sort" className="sort-icon" />
       </button>
 
-      {/* 일기 카드 */}
+      {/* ===== 일기 카드 ===== */}
       <div className="diary-wrapper">
         {sortedDiaries.map((d) => {
-          const month = d.date.split(".")[1];
+          const dateStr = d.date || "";
+          const month = dateStr.split(".")[1] || "01";
+
+          // 안전한 이미지 선택
+          const firstImage = d.images?.find(img => img) || "";
 
           return (
             <div
@@ -56,16 +68,22 @@ export default function Hmain({ diaries }) {
               style={{ backgroundColor: monthColors[month] }}
               onClick={() => navigate(`/edit/${d.id}`)}
             >
-              <img src={d.images[0]} className="thumb-img" />
-              <div className="card-title">{d.title}</div>
+              <div className="diary-thumb">
+                {firstImage ? (
+                  <img src={firstImage} className="thumb-img" alt="thumb" />
+                ) : (
+                  <div className="thumb-placeholder"></div>
+                )}
+              </div>
+
+              <div className="card-title">{d.title || "(제목 없음)"}</div>
               <div className="card-date">{d.date}</div>
             </div>
           );
         })}
       </div>
 
-
-      {/* 플로팅 버튼 */}
+      {/* ===== 플로팅 버튼 ===== */}
       <div className="fab-wrapper">
         {openMenu && (
           <div className="fab-menu">
@@ -78,34 +96,17 @@ export default function Hmain({ diaries }) {
         <button className="fab-btn" onClick={() => setOpenMenu(prev => !prev)}>+</button>
       </div>
 
+      {/* ===== 정렬 팝업 ===== */}
       {showSortPopup && (
         <div className="popup-overlay" onClick={() => setShowSortPopup(false)}>
           <div className="sort-popup" onClick={(e) => e.stopPropagation()}>
-            <button
-              className="sort-option"
-              onClick={() => {
-                setSortType("latest");
-                setShowSortPopup(false);
-              }}
-            >
+            <button className="sort-option" onClick={() => { setSortType("latest"); setShowSortPopup(false); }}>
               최신순
             </button>
-            <button
-              className="sort-option"
-              onClick={() => {
-                setSortType("oldest");
-                setShowSortPopup(false);
-              }}
-            >
+            <button className="sort-option" onClick={() => { setSortType("oldest"); setShowSortPopup(false); }}>
               오래된순
             </button>
-            <button
-              className="sort-option"
-              onClick={() => {
-                setSortType("title");
-                setShowSortPopup(false);
-              }}
-            >
+            <button className="sort-option" onClick={() => { setSortType("title"); setShowSortPopup(false); }}>
               제목순
             </button>
           </div>
